@@ -1,4 +1,4 @@
 KataTennis
 ==========
 
-KataTennis in Ruby
+KataTennis in Ruby (in progress)
