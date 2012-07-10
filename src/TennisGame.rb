@@ -1,8 +1,19 @@
 class TennisGame
 
+  DEUCE = 'Deuce'
+  SCORES = [
+      'Love',
+      'Fifteen',
+      'Thirty',
+      'Fourty'
+  ]
+  WIN_THRESHOLD = 3
+  
   def initialize(players)
+
     @players = players
     @playersCounters = Array[0,0]
+
   end
 
   def play(game)
@@ -11,8 +22,14 @@ class TennisGame
 
     playRounds(game)
 
-    result = @players[0] if (@playersCounters[0] > 3)
-    result = @players[1] if (@playersCounters[1] > 3)
+    result = buildAdvantage() if (isThereAdvantage())
+
+    result = DEUCE if (isThereDeuce())
+
+    if (result.eql?(''))
+      result = @players[0] if (@playersCounters[0] > WIN_THRESHOLD)
+      result = @players[1] if (@playersCounters[1] > WIN_THRESHOLD)
+    end
 
     result = buildNonFinishedScore() if ( result.eql?('') )
 
@@ -20,14 +37,30 @@ class TennisGame
 
   end
 
+  def isThereDeuce()
+    @playersCounters[0]>=WIN_THRESHOLD and 
+    @playersCounters[1]>=WIN_THRESHOLD and 
+    @playersCounters[0].eql?(@playersCounters[1])
+  end
+
+  def buildAdvantage()
+    advantage = 'Advantage '
+    if @playersCounters[0] > @playersCounters[1]
+      advantage += @players[0]
+    else
+      advantage += @players[1]
+    end
+    advantage
+  end
+
+  def isThereAdvantage()
+    @playersCounters[0] >= WIN_THRESHOLD and 
+    @playersCounters[1] >= WIN_THRESHOLD and 
+    ( (@playersCounters[0] - @playersCounters[1]).abs.eql?(1) )
+  end
+
   def getScore(count)
-    scores = [
-      'Love',
-      'Fifteen',
-      'Thirty',
-      'Fourty'
-    ]
-    scores[count]
+    SCORES[count]
   end
 
   def buildNonFinishedScore()

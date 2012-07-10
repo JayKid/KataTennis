@@ -14,22 +14,37 @@ class TennisGameTests < Test::Unit::TestCase
 
   def test_givenNothingItShouldReturnLoveLove
   	game = []
-  	assert_equal( @tennisGame.play(game), 'Love - Love' )
+  	assert_equal('Love - Love', @tennisGame.play(game))
   end
 
   def test_givenOneItShouldReturnLoveFifteen
   	game = [1]
-  	assert_equal( @tennisGame.play(game), 'Love - Fifteen' )
+  	assert_equal('Love - Fifteen' ,@tennisGame.play(game))
   end
 
   def test_givenFourOnesItShouldReturnPlayerTwo
   	game = [1,1,1,1]
-  	assert_equal( @tennisGame.play(game), 'Player Two' )
+  	assert_equal('Player Two' ,@tennisGame.play(game))
   end
 
   def test_givenFourZerosItShouldReturnPlayerOne
     game = [0,0,0,0]
-    assert_equal( @tennisGame.play(game), 'Player One' )
+    assert_equal('Player One' ,@tennisGame.play(game))
+  end
+
+  def test_givenThreeZerosAndThreeOnesItShouldReturnDeuce
+    game = [0,0,0,1,1,1]
+    assert_equal('Deuce' ,@tennisGame.play(game))
+  end
+
+  def test_givenThreeZerosAndFourOnesItShouldReturnAdvantagePlayerTwo
+    game = [0,0,0,1,1,1,1]
+    assert_equal('Advantage Player Two' ,@tennisGame.play(game))
+  end
+
+  def test_givenFourZerosAndFourOnesItShouldReturnDeuce
+    game = [0,0,0,0,1,1,1,1]
+    assert_equal('Deuce' ,@tennisGame.play(game))
   end
  
 end
