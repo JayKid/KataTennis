@@ -8,7 +8,7 @@ class TennisGame
       'Fourty'
   ]
   WIN_THRESHOLD = 3
-  
+
   def initialize(players)
 
     @players = players
@@ -26,15 +26,30 @@ class TennisGame
 
     result = DEUCE if (isThereDeuce())
 
-    if (result.eql?(''))
-      result = @players[0] if (@playersCounters[0] > WIN_THRESHOLD)
-      result = @players[1] if (@playersCounters[1] > WIN_THRESHOLD)
+    if (resultIsNotSet(result))
+      result = getWinner() if (isThereAWinner())
     end
 
-    result = buildNonFinishedScore() if ( result.eql?('') )
+    result = buildNonFinishedScore() if (resultIsNotSet(result))
 
     result
 
+  end
+
+  def getWinner()
+    if (@playersCounters[0] > WIN_THRESHOLD)
+      result = @players[0]
+    else result = @players[1]
+    end
+    result
+  end
+
+  def isThereAWinner()
+    @playersCounters[0] > WIN_THRESHOLD or @playersCounters[1] > WIN_THRESHOLD
+  end
+
+  def resultIsNotSet(result)
+    result.eql?('')
   end
 
   def isThereDeuce()
